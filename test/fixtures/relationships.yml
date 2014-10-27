@@ -1,0 +1,15 @@
+one:
+  follower: genova
+  followed: lana
+
+two:
+  follower: genova
+  followed: mallory
+
+three:
+  follower: lana
+  followed: genova
+
+four:
+  follower: chuck
+  followed: genova

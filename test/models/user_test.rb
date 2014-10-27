@@ -64,4 +64,33 @@ class UserTest < ActiveSupport::TestCase
     end
   end
   
+  test "should follow and unfollow a user" do
+    genova = users(:genova)
+    chuck = users(:chuck)
+    assert_not genova.following?(chuck)
+    genova.follow(chuck)
+    assert genova.following?(chuck)
+    assert chuck.followers.include?(genova)
+    genova.unfollow(chuck)
+    assert_not genova.following?(chuck)
+  end
+  
+  test "feed should have the right posts" do
+    genova = users(:genova)
+    chuck = users(:chuck)
+    lana = users(:lana)
+    # Posts from followed user
+    lana.microposts.each do |post_following|
+      assert genova.feed.include?(post_following)
+    end
+    # Posts from self
+    genova.microposts.each do |post_self|
+      assert genova.feed.include?(post_self)
+    end
+    # Posts from unfollowed user
+    chuck.microposts.each do |post_unfollowed|
+      assert_not genova.feed.include?(post_unfollowed)
+    end
+  end
+  
 end
